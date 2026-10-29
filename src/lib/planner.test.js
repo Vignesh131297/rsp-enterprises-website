@@ -4,7 +4,13 @@ import { estimateBasement } from './planner';
 describe('estimateBasement', () => {
   it('estimates a typical 2-level basement in soil', () => {
     expect(estimateBasement({ area: 6000, levels: 2, soil: 'soil' })).toEqual({
-      depth: 8, volume: 4459, loads: 349, excavators: 2, tippers: 4, days: 11, needsShoring: true,
+      depth: 8,
+      volume: 4459,
+      loads: 349,
+      excavators: 2,
+      tippers: 4,
+      days: 11,
+      needsShoring: true,
     });
   });
 

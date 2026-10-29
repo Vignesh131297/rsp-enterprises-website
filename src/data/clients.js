@@ -1,0 +1,22 @@
+// Client logos shown on Home (scrolling strip) and About (grid), in display order.
+export const CLIENTS = [
+  { name: 'Embassy', logo: 'clients/embassy.png' },
+  { name: 'Prestige Group', logo: 'clients/prestige.png' },
+  { name: 'L&T Construction', logo: 'clients/lt-construction.png' },
+  { name: 'Shapoorji Pallonji', logo: 'clients/shapoorji-pallonji.png' },
+  { name: 'RMZ Corp', logo: 'clients/rmz.png' },
+  { name: 'Godrej', logo: 'clients/godrej.png' },
+  { name: 'Biocon', logo: 'clients/biocon.png' },
+  { name: 'Pachaiyappas Silks', logo: 'clients/pachaiyappas-silks.png' },
+  { name: 'Hical Technologies', logo: 'clients/hical.png' },
+  { name: 'CBRE', logo: 'clients/cbre.png' },
+  { name: 'KEC International', logo: 'clients/kec-international.png' },
+  { name: 'JMC Projects', logo: 'clients/jmc-projects.png' },
+  { name: 'Simplex Infrastructures', logo: 'clients/simplex.png' },
+  { name: 'Navayuga', logo: 'clients/navayuga.png' },
+  { name: 'Vidya Infrastructure', logo: 'clients/vidya.png' },
+  { name: 'UrbanUp', logo: 'clients/urbanup.png' },
+  { name: 'Ascent Circuits', logo: 'clients/ascent-circuits.png' },
+  { name: 'Amar Architect', logo: 'clients/amar-architect.png' },
+  { name: 'CRN Architect', logo: 'clients/crn-architect.png' },
+];

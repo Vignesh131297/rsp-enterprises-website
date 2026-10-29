@@ -4,7 +4,7 @@ export const PHONE = {
 };
 
 export const EMAIL = {
-  sales: 'sales@rspenterprises.net',
+  enquiries: 'pm@rspenterprises.net',
   gmail: 'rspenterprises2013@gmail.com',
 };
 
@@ -12,4 +12,4 @@ export const whatsappLink = (text) =>
   `https://wa.me/${PHONE.primary.whatsapp}` + (text ? `?text=${encodeURIComponent(text)}` : '');
 
 export const mailtoLink = (subject, body) =>
-  `mailto:${EMAIL.sales}?cc=${EMAIL.gmail}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  `mailto:${EMAIL.enquiries}?cc=${EMAIL.gmail}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

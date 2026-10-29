@@ -23,10 +23,21 @@ describe('pages', () => {
     expect(screen.getByRole('heading', { level: 1, name: heading })).toBeInTheDocument();
   });
 
-  it('highlights the current page in the menu and shows the new contact email', () => {
+  it('highlights the current page in the menu and shows the enquiries email', () => {
     renderAt('/services');
     expect(screen.getByRole('link', { name: 'Services', current: 'page' })).toBeInTheDocument();
-    expect(screen.getAllByRole('link', { name: 'sales@rspenterprises.net' }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: 'pm@rspenterprises.net' }).length).toBeGreaterThan(0);
+    expect(screen.queryByText('sales@rspenterprises.net')).not.toBeInTheDocument();
+  });
+
+  it('has a single header link to the contact page (Get a Quote)', () => {
+    renderAt('/');
+    const menu = screen.getByRole('navigation', { name: 'Main' });
+    const contactLinks = within(menu)
+      .getAllByRole('link')
+      .filter((a) => a.getAttribute('href') === '/contact');
+    expect(contactLinks).toHaveLength(1);
+    expect(contactLinks[0]).toHaveTextContent('Get a Quote');
   });
 
   it('shows a not-found page for unknown links', () => {
@@ -58,7 +69,9 @@ describe('home features', () => {
     expect(screen.getByTestId('plan-volume')).toHaveTextContent('12,820 m³');
     expect(screen.getByTestId('plan-days')).toHaveTextContent('48 days');
     expect(screen.getByText(/Shoring advised/)).toBeInTheDocument();
-    const href = decodeURIComponent(screen.getByRole('link', { name: 'Get an exact quote on WhatsApp' }).getAttribute('href'));
+    const href = decodeURIComponent(
+      screen.getByRole('link', { name: 'Get an exact quote on WhatsApp' }).getAttribute('href'),
+    );
     expect(href).toContain('Plot area: 12,000 sq ft');
     expect(href).toContain('Ground: Hard rock');
   });

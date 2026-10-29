@@ -11,7 +11,15 @@ export default function Layout() {
   }, [pathname]);
 
   return (
-    <div style={{ fontFamily: "'Barlow', sans-serif", color: "#1C1B19", background: "#F6F3EE", fontSize: "17px", lineHeight: "1.55" }}>
+    <div
+      style={{
+        fontFamily: "'Barlow', sans-serif",
+        color: '#1C1B19',
+        background: '#F6F3EE',
+        fontSize: '17px',
+        lineHeight: '1.55',
+      }}
+    >
       <Header />
       <main>
         <Outlet />
