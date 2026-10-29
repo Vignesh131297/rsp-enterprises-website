@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { img } from '../lib/assets';
+import { PAGES } from '../data/pages';
 
 export default function Header() {
   return (
@@ -13,11 +14,16 @@ export default function Header() {
           </span>
         </Link>
         <nav aria-label="Main" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "4px 26px", fontWeight: "500", fontSize: "16px" }}>
-          <Link to="/" style={{ color: "#F2A35E", textDecoration: "none", padding: "10px 0" }}>Home</Link>
-          <Link to="/about" style={{ color: "#F6F3EE", textDecoration: "none", padding: "10px 0" }}>About</Link>
-          <Link to="/services" style={{ color: "#F6F3EE", textDecoration: "none", padding: "10px 0" }}>Services</Link>
-          <Link to="/projects" style={{ color: "#F6F3EE", textDecoration: "none", padding: "10px 0" }}>Projects</Link>
-          <Link to="/contact" style={{ color: "#F6F3EE", textDecoration: "none", padding: "10px 0" }}>Contact</Link>
+          {PAGES.map((p) => (
+            <NavLink
+              key={p.to}
+              to={p.to}
+              end={p.to === '/'}
+              style={({ isActive }) => ({ color: isActive ? "#F2A35E" : "#F6F3EE", textDecoration: "none", padding: "10px 0" })}
+            >
+              {p.nav}
+            </NavLink>
+          ))}
           <Link to="/contact" style={{ background: "#E8731A", color: "#1C1B19", textDecoration: "none", padding: "11px 20px", borderRadius: "4px", fontWeight: "600" }}>Get a Quote</Link>
         </nav>
       </div>

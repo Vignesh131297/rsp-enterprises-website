@@ -1,14 +1,44 @@
-/* Shared styles for the interactive parts. Page layout styles are inline in each page. */
-[hidden] { display: none !important; }
+/* Page layout styles are inline in the components; this file holds base styles,
+   animations and the classes the interactive parts toggle. */
+body { margin: 0; background: #F6F3EE; }
+a { color: #A84A12; }
+a:hover { color: #7A3410; }
+
+/* Scrolling strips */
+@keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes mqr { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.mq { animation: mq 36s linear infinite; }
+.mqr { animation: mqr 44s linear infinite; }
+
+/* Dark gradient behind hero text, tuned per page */
+.hero-scrim--home { background: linear-gradient(90deg, rgba(20,18,16,.9) 0%, rgba(20,18,16,.78) 38%, rgba(20,18,16,.25) 62%, rgba(20,18,16,0) 80%); }
+.hero-scrim--about,
+.hero-scrim--services { background: linear-gradient(90deg, rgba(20,18,16,.9) 0%, rgba(20,18,16,.75) 36%, rgba(20,18,16,.2) 60%, rgba(20,18,16,0) 78%); }
+.hero-scrim--projects { background: linear-gradient(90deg, rgba(20,18,16,.92) 0%, rgba(20,18,16,.8) 38%, rgba(20,18,16,.25) 58%, rgba(20,18,16,0) 72%); }
+@media (max-width: 820px) {
+  .hero-scrim--home, .hero-scrim--about, .hero-scrim--services { background: rgba(20,18,16,.7); }
+  .hero-scrim--projects { background: rgba(20,18,16,.72); }
+}
 
 /* Home: break the rock */
+@keyframes strikeA { 0% { transform: translateY(0); } 40% { transform: translateY(26px); } 100% { transform: translateY(0); } }
+@keyframes strikeB { 0% { transform: translateY(0); } 40% { transform: translateY(26px); } 100% { transform: translateY(0); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes shakeA { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+@keyframes shakeB { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+.hammer-idle { animation: bob 2.4s ease-in-out infinite; }
+.hammer-a { animation: strikeA .28s ease-out; }
+.hammer-b { animation: strikeB .28s ease-out; }
+.shake-a { animation: shakeA .32s ease-out; }
+.shake-b { animation: shakeB .32s ease-out; }
+.rock-btn:focus-visible { outline: 3px solid #F2A35E; outline-offset: 6px; border-radius: 8px; }
 .hit-bar { width: 40px; height: 6px; border-radius: 3px; background: #3A3733; transition: background .2s; }
 .hit-bar.on { background: #E8731A; }
 .fade { opacity: 0; transition: opacity .2s; }
 .fade.on { opacity: 1; }
 .rock-half { transform-box: fill-box; transform-origin: 50% 100%; transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
-#rock-left.split { transform: translate(-30px, 6px) rotate(-7deg); }
-#rock-right.split { transform: translate(30px, 6px) rotate(6deg); }
+.rock-half.split-left { transform: translate(-30px, 6px) rotate(-7deg); }
+.rock-half.split-right { transform: translate(30px, 6px) rotate(6deg); }
 
 /* Home: basement planner */
 .pill { padding: 12px 18px; border-radius: 4px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; background: #FFFFFF; color: #1C1B19; border: 2px solid #B8B0A4; }
@@ -23,6 +53,7 @@
 /* Projects: filters, slider, map */
 .filter-btn { padding: 12px 22px; border-radius: 4px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; background: transparent; color: #1C1B19; border: 2px solid #B8B0A4; }
 .filter-btn[aria-pressed="true"] { background: #1C1B19; color: #FFFFFF; border-color: #1C1B19; }
+.ba-box:focus-within { outline: 3px solid #E8731A; outline-offset: 4px; }
 .ba-after { position: absolute; inset: 0; }
 .ba-handle { position: absolute; top: 0; bottom: 0; width: 4px; margin-left: -2px; background: #FFFFFF; pointer-events: none; }
 .pin { position: absolute; box-sizing: border-box; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; z-index: 1; background: #F2A35E; color: #1C1B19; border: 3px solid #1C1B19; }
@@ -30,3 +61,7 @@
 .pin:focus-visible, .pill:focus-visible, .filter-btn:focus-visible { outline: 3px solid #E8731A; outline-offset: 3px; }
 .pin-label { position: absolute; font-size: 14px; font-weight: 600; white-space: nowrap; pointer-events: none; color: #C9C2B8; }
 .pin-label.on { color: #FFFFFF; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mq, .mqr, .hammer-idle, .hammer-a, .hammer-b, .shake-a, .shake-b { animation: none; }
+}
