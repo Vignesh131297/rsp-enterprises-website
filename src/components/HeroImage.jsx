@@ -18,6 +18,7 @@ export default function HeroImage({ name, widths, alt, position = '50% 50%' }) {
         height: '100%',
         objectFit: 'cover',
         objectPosition: position,
+        filter: 'brightness(1.12) saturate(1.05)',
       }}
     />
   );

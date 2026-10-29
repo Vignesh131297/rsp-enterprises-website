@@ -15,7 +15,7 @@ export default function About() {
           position="60% 55%"
           alt="Excavator loading red earth into a line of tipper trucks"
         />
-        <div className="hero-scrim hero-scrim--about" style={{ position: 'absolute', inset: '0' }} />
+        <div className="hero-scrim" style={{ position: 'absolute', inset: '0' }} />
         <div
           style={{
             position: 'relative',

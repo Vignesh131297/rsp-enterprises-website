@@ -16,7 +16,7 @@ export default function Projects() {
           position="55% 50%"
           alt="Aerial view of a deep basement excavation in the city"
         />
-        <div className="hero-scrim hero-scrim--projects" style={{ position: 'absolute', inset: '0' }} />
+        <div className="hero-scrim" style={{ position: 'absolute', inset: '0' }} />
         <div style={{ position: 'relative', maxWidth: '1240px', margin: '0 auto', padding: '130px 24px 140px' }}>
           <div className="eyebrow eyebrow--light">PROJECTS</div>
           <h1

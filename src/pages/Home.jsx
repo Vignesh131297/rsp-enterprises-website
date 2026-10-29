@@ -18,7 +18,7 @@ export default function Home() {
           position="65% 55%"
           alt="Excavators breaking granite in a deep basement excavation at sunset"
         />
-        <div className="hero-scrim hero-scrim--home" style={{ position: 'absolute', inset: '0' }} />
+        <div className="hero-scrim" style={{ position: 'absolute', inset: '0' }} />
         <div
           style={{
             position: 'relative',

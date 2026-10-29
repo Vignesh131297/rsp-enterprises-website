@@ -16,7 +16,7 @@ export default function Services() {
           position="55% 60%"
           alt="Excavator, backhoe loader, tipper and water tanker lined up on a cleared site"
         />
-        <div className="hero-scrim hero-scrim--services" style={{ position: 'absolute', inset: '0' }} />
+        <div className="hero-scrim" style={{ position: 'absolute', inset: '0' }} />
         <div
           style={{
             position: 'relative',
