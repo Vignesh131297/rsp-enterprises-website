@@ -150,10 +150,13 @@ describe('enquiry form: email and WhatsApp', () => {
   });
 
   it('without email set up, offers WhatsApp and email with the exact enquiry text', async () => {
+    const scroll = vi.spyOn(Element.prototype, 'scrollIntoView');
     const user = userEvent.setup();
     renderAt('/contact');
     await fillAndSend(user);
     const whatsapp = await screen.findByRole('link', { name: 'Send on WhatsApp' });
+    expect(scroll).toHaveBeenCalled();
+    scroll.mockRestore();
     expect(whatsapp.getAttribute('href')).toMatch(/^https:\/\/wa\.me\/919901039765\?text=/);
     expect(whatsappText(whatsapp)).toBe(EXPECTED);
     const mail = new URL(screen.getByRole('link', { name: 'Or send it by email' }).getAttribute('href'));

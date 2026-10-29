@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PHONE, mailtoLink, whatsappLink } from '../data/contact';
 import { SERVICES, buildEnquiry, emailTemplateParams, enquirySubject, enquiryText } from '../lib/enquiry';
 import { sendEnquiryEmail } from '../lib/emailService';
@@ -7,6 +7,14 @@ import { sendEnquiryEmail } from '../lib/emailService';
 export default function EnquiryForm() {
   const [status, setStatus] = useState('idle');
   const [enquiry, setEnquiry] = useState(null);
+  const noticeRef = useRef(null);
+
+  // The confirmation sits above the form, out of view after pressing Send, so scroll to it.
+  useEffect(() => {
+    if (status !== 'idle' && status !== 'sending') {
+      noticeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [status]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -34,7 +42,7 @@ export default function EnquiryForm() {
 
   return (
     <form onSubmit={handleSubmit} aria-label="Enquiry form" className="enquiry-form">
-      <div role="status" aria-live="polite">
+      <div role="status" aria-live="polite" ref={noticeRef}>
         {status === 'sent' && enquiry && (
           <div className="notice notice--success">
             <strong>Thank you, {enquiry.name}.</strong> Your enquiry has been emailed to our team. We'll call you on{' '}
