@@ -98,11 +98,9 @@ describe('projects features', () => {
     expect(within(items[1]).getByText('Ascent Circuits')).toBeInTheDocument();
   });
 
-  it('moves the rock-to-ready slider', () => {
+  it('no longer shows the rock-to-ready comparison slider', () => {
     renderAt('/projects');
-    const slider = screen.getByLabelText('Slide between rock breaking and hauling');
-    fireEvent.change(slider, { target: { value: '20' } });
-    expect(slider.parentElement.querySelector('.ba-handle')).toHaveStyle({ left: '20%' });
+    expect(screen.queryByLabelText('Slide between rock breaking and hauling')).not.toBeInTheDocument();
   });
 });
 

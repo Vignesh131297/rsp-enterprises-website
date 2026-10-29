@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import usePageTitle from '../lib/usePageTitle';
 import HeroImage from '../components/HeroImage';
 import ProjectGrid from '../components/ProjectGrid';
-import RockToReadySlider from '../components/RockToReadySlider';
 import ProjectMap from '../components/ProjectMap';
 
 export default function Projects() {
@@ -39,7 +38,6 @@ export default function Projects() {
         </div>
       </section>
       <ProjectGrid />
-      <RockToReadySlider />
       <ProjectMap />
       <section style={{ background: '#E8731A', color: '#1C1B19' }}>
         <div

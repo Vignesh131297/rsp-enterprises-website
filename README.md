@@ -21,14 +21,14 @@ npm run build         # production build into dist/
 
 ## Project layout
 
-| Path                    | What it is                                                                                                                                                                                           |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/pages/`            | One component per page: Home, About, Services, Projects, Contact, NotFound                                                                                                                           |
-| `src/components/`       | Layout, Header, Footer, Marquees, HeroImage, ClientMarquee, ClientGrid and the interactive parts: RockBreaker, BasementPlanner, ProjectGrid, RockToReadySlider, ProjectMap, FleetBoard, ContactPanel |
-| `src/data/`             | Content that changes: `contact.js`, `clients.js`, `projects.js`, `fleet.js`, `pages.js`                                                                                                              |
-| `src/lib/`              | `planner.js` (Basement Planner maths), `assets.js` (image paths), `usePageTitle.js`                                                                                                                  |
-| `src/styles/global.css` | Base styles, shared UI classes (`eyebrow`, `section-title`, `btn`, `chip`…), animations and interactive-state classes                                                                                |
-| `public/img/`           | Images by type: `brand/`, `hero/`, `clients/`, `projects/`, `fleet/`, `site/`                                                                                                                        |
+| Path                    | What it is                                                                                                                                                                        |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/`            | One component per page: Home, About, Services, Projects, Contact, NotFound                                                                                                        |
+| `src/components/`       | Layout, Header, Footer, Marquees, HeroImage, ClientMarquee, ClientGrid and the interactive parts: RockBreaker, BasementPlanner, ProjectGrid, ProjectMap, FleetBoard, ContactPanel |
+| `src/data/`             | Content that changes: `contact.js`, `clients.js`, `projects.js`, `fleet.js`, `pages.js`                                                                                           |
+| `src/lib/`              | `planner.js` (Basement Planner maths), `assets.js` (image paths), `usePageTitle.js`                                                                                               |
+| `src/styles/global.css` | Base styles, shared UI classes (`eyebrow`, `section-title`, `btn`, `chip`…), animations and interactive-state classes                                                             |
+| `public/img/`           | Images by type: `brand/`, `hero/`, `clients/`, `projects/`, `fleet/`, `site/`                                                                                                     |
 
 ## Common updates
 
@@ -45,6 +45,12 @@ The site is built for the GitHub Pages sub-path `/rsp-enterprises-website/`. To 
 ## Enquiries: email and WhatsApp
 
 The quote form emails each enquiry to pm@rspenterprises.net automatically (through EmailJS, no server needed) and gives the visitor a one-tap WhatsApp button with the same text. Setup steps and the template are in [`email-templates/README.md`](email-templates/README.md). Until the three `EMAILJS_*` repository variables are set, the form offers WhatsApp only.
+
+## Planned for the next version
+
+- **Projects page, process section:** the "From rock to ready" drag slider was removed because its two photos were from different sites and unclear. Plan: an "Our process" section with 4 clickable steps (Survey & marking → Rock breaking → Excavation & shoring → Haul & hand over), each with a clear photo, ideally real site photos from RSP. The old slider is in git history (`src/components/RockToReadySlider.jsx` before this change).
+- **About page:** real names for the organisation chart (still "ABC").
+- **Enquiry email:** add the EmailJS IDs as repository variables to switch on automatic emails.
 
 ## Contact used on the site
 

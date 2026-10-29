@@ -490,23 +490,6 @@ textarea.form-input {
   color: #ffffff;
   border-color: #1c1b19;
 }
-.ba-box:focus-within {
-  outline: 3px solid #e8731a;
-  outline-offset: 4px;
-}
-.ba-after {
-  position: absolute;
-  inset: 0;
-}
-.ba-handle {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  margin-left: -2px;
-  background: #ffffff;
-  pointer-events: none;
-}
 .pin {
   position: absolute;
   box-sizing: border-box;
