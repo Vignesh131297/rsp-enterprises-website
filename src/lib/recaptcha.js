@@ -1,6 +1,6 @@
-// Google reCAPTCHA v2 ("I'm not a robot" checkbox). Needed when the EmailJS template has
-// reCAPTCHA verification switched on. Turned on by VITE_RECAPTCHA_SITE_KEY: the *site* key of a
-// v2 Checkbox key pair (the matching secret key goes into the EmailJS template settings).
+// Google reCAPTCHA v2 Invisible. Needed because the EmailJS template has reCAPTCHA verification
+// switched on. Turned on by VITE_RECAPTCHA_SITE_KEY: the *site* key of a v2 Invisible key pair
+// (the matching secret key goes into the EmailJS template settings).
 
 const SCRIPT_URL = 'https://www.google.com/recaptcha/api.js?render=explicit&onload=__rspRecaptchaReady';
 let loading;

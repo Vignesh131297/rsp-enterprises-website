@@ -42,11 +42,11 @@ For local development, copy `.env.example` to `.env.local` and fill in the same 
 
 ## If reCAPTCHA is switched on in the EmailJS template
 
-EmailJS then rejects every email that has no reCAPTCHA token (`reCAPTCHA: The g-recaptcha-response parameter not found`). Either switch it off (template **Settings** tab), or set it up fully:
+It is switched on for RSP (to block spam). EmailJS then rejects every email that has no reCAPTCHA token (`reCAPTCHA: The g-recaptcha-response parameter not found`). The site uses **reCAPTCHA v2 Invisible**: no tick box, the check runs when the visitor presses Send and Google shows a picture puzzle only if it is unsure.
 
-1. At https://www.google.com/recaptcha/admin/create create a key of type **reCAPTCHA v2 → "I'm not a robot" Checkbox** (v3 and invisible keys do not work here). Add the domains `vignesh131297.github.io` and `rspenterprises.net`.
-2. Paste the **secret key** into the EmailJS template's reCAPTCHA setting.
-3. Add the **site key** as the GitHub repository variable `RECAPTCHA_SITE_KEY` and redeploy. The form then shows the checkbox and sends its token with each email.
+1. The key pair is a **reCAPTCHA v2 → Invisible** key (https://www.google.com/recaptcha/admin). Its **Domains** list must include every address the site is served from: `vignesh131297.github.io` now, and `rspenterprises.net` after the move. A missing domain shows "Invalid domain for site key" and every email falls back to WhatsApp.
+2. The **secret key** goes into the EmailJS template's reCAPTCHA setting.
+3. The **site key** is the GitHub repository variable `RECAPTCHA_SITE_KEY` (redeploy after changing it).
 
 ## Template variables
 

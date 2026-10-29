@@ -204,14 +204,31 @@ describe('enquiry form: email and WhatsApp', () => {
   });
 
   describe('with reCAPTCHA switched on in EmailJS', () => {
+    // Invisible reCAPTCHA: execute() runs the check and Google calls back with a token (or an error).
     const mockRecaptcha = (token) => {
       vi.stubEnv('VITE_RECAPTCHA_SITE_KEY', 'site-key-test');
-      const grecaptcha = { render: vi.fn(() => 0), getResponse: vi.fn(() => token), reset: vi.fn() };
+      let options;
+      const grecaptcha = {
+        render: vi.fn((box, opts) => {
+          options = opts;
+          return 0;
+        }),
+        execute: vi.fn(() => (token ? options.callback(token) : options['error-callback']())),
+        reset: vi.fn(),
+      };
       vi.stubGlobal('grecaptcha', grecaptcha);
       return grecaptcha;
     };
 
-    it('asks the visitor to tick the box and sends nothing until they do', async () => {
+    it('renders an invisible check with the site key', async () => {
+      enableEmail();
+      const grecaptcha = mockRecaptcha('token-123');
+      renderAt('/contact');
+      await waitFor(() => expect(grecaptcha.render).toHaveBeenCalled());
+      expect(grecaptcha.render.mock.calls[0][1]).toMatchObject({ sitekey: 'site-key-test', size: 'invisible' });
+    });
+
+    it('falls back to WhatsApp and sends no email when the security check fails', async () => {
       enableEmail();
       const grecaptcha = mockRecaptcha('');
       const fetchMock = vi.fn();
@@ -220,7 +237,8 @@ describe('enquiry form: email and WhatsApp', () => {
       renderAt('/contact');
       await waitFor(() => expect(grecaptcha.render).toHaveBeenCalled());
       await fillAndSend(user);
-      expect(screen.getByRole('alert')).toHaveTextContent("Please tick “I'm not a robot” before sending.");
+      expect(await screen.findByText(/couldn't send your enquiry by email/)).toBeInTheDocument();
+      expect(whatsappText(screen.getByRole('link', { name: 'Send on WhatsApp' }))).toBe(EXPECTED);
       expect(fetchMock).not.toHaveBeenCalled();
     });
 

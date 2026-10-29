@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PHONE, mailtoLink, whatsappLink } from '../data/contact';
 import { SERVICES, buildEnquiry, emailTemplateParams, enquirySubject, enquiryText } from '../lib/enquiry';
-import { sendEnquiryEmail } from '../lib/emailService';
+import { emailConfig, sendEnquiryEmail } from '../lib/emailService';
 import { recaptchaSiteKey } from '../lib/recaptcha';
 import Recaptcha from './Recaptcha';
 
@@ -9,7 +9,6 @@ import Recaptcha from './Recaptcha';
 export default function EnquiryForm() {
   const [status, setStatus] = useState('idle');
   const [enquiry, setEnquiry] = useState(null);
-  const [captchaMissing, setCaptchaMissing] = useState(false);
   const noticeRef = useRef(null);
   const captcha = useRef(null);
   const siteKey = recaptchaSiteKey();
@@ -35,17 +34,20 @@ export default function EnquiryForm() {
       setStatus('sent');
       return;
     }
-    // When the EmailJS template checks reCAPTCHA, the visitor's "I'm not a robot" token goes with the email.
-    const token = siteKey ? captcha.current?.getToken() : '';
-    if (siteKey && !token) {
-      setCaptchaMissing(true);
-      return;
-    }
-    setCaptchaMissing(false);
     setStatus('sending');
     const params = emailTemplateParams(next);
-    const result = await sendEnquiryEmail(token ? { ...params, 'g-recaptcha-response': token } : params);
-    captcha.current?.reset();
+    // The EmailJS template checks reCAPTCHA, so the token from the invisible check goes with the email.
+    // If the check cannot run (script blocked, puzzle closed), the visitor gets the WhatsApp / call fallback.
+    if (siteKey && emailConfig()) {
+      const token = (await captcha.current?.getToken()) || '';
+      captcha.current?.reset();
+      if (!token) {
+        setStatus('failed');
+        return;
+      }
+      params['g-recaptcha-response'] = token;
+    }
+    const result = await sendEnquiryEmail(params);
     if (result.ok) {
       setStatus('sent');
       form.reset();
@@ -157,11 +159,6 @@ export default function EnquiryForm() {
         <input id="f-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
       {siteKey && <Recaptcha siteKey={siteKey} onReady={handleCaptchaReady} />}
-      {captchaMissing && (
-        <p role="alert" className="form-error">
-          Please tick “I'm not a robot” before sending.
-        </p>
-      )}
       <button type="submit" className="btn btn--primary" disabled={status === 'sending'}>
         {status === 'sending' ? 'Sending…' : 'Send enquiry'}
       </button>
