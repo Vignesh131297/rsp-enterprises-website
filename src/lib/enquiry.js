@@ -47,5 +47,9 @@ export function emailTemplateParams(enquiry) {
     customer_phone: enquiry.phone,
     customer_email: enquiry.email,
     service: enquiry.service,
+    // Short names used by the EmailJS template content ("A message by {{name}} - {{mobile}} …").
+    name: enquiry.name,
+    mobile: enquiry.phone,
+    email: enquiry.email,
   };
 }

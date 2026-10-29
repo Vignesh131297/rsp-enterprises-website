@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import App from './App';
@@ -201,5 +201,43 @@ describe('enquiry form: email and WhatsApp', () => {
     renderAt('/contact');
     await fillAndSend(user, { website: 'spam.example' });
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  describe('with reCAPTCHA switched on in EmailJS', () => {
+    const mockRecaptcha = (token) => {
+      vi.stubEnv('VITE_RECAPTCHA_SITE_KEY', 'site-key-test');
+      const grecaptcha = { render: vi.fn(() => 0), getResponse: vi.fn(() => token), reset: vi.fn() };
+      vi.stubGlobal('grecaptcha', grecaptcha);
+      return grecaptcha;
+    };
+
+    it('asks the visitor to tick the box and sends nothing until they do', async () => {
+      enableEmail();
+      const grecaptcha = mockRecaptcha('');
+      const fetchMock = vi.fn();
+      vi.stubGlobal('fetch', fetchMock);
+      const user = userEvent.setup();
+      renderAt('/contact');
+      await waitFor(() => expect(grecaptcha.render).toHaveBeenCalled());
+      await fillAndSend(user);
+      expect(screen.getByRole('alert')).toHaveTextContent("Please tick “I'm not a robot” before sending.");
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('sends the reCAPTCHA token and the {{name}} / {{mobile}} values with the email', async () => {
+      enableEmail();
+      const grecaptcha = mockRecaptcha('token-123');
+      const fetchMock = vi.fn().mockResolvedValue(new Response('OK', { status: 200 }));
+      vi.stubGlobal('fetch', fetchMock);
+      const user = userEvent.setup();
+      renderAt('/contact');
+      await waitFor(() => expect(grecaptcha.render).toHaveBeenCalled());
+      await fillAndSend(user);
+      expect(await screen.findByText(/Your enquiry has been emailed to our team/)).toBeInTheDocument();
+      const params = JSON.parse(fetchMock.mock.calls[0][1].body).template_params;
+      expect(params['g-recaptcha-response']).toBe('token-123');
+      expect(params).toMatchObject({ name: 'Ramesh Kumar', mobile: '98450 12345', message: EXPECTED });
+      expect(grecaptcha.reset).toHaveBeenCalled();
+    });
   });
 });

@@ -1,13 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { PHONE, mailtoLink, whatsappLink } from '../data/contact';
 import { SERVICES, buildEnquiry, emailTemplateParams, enquirySubject, enquiryText } from '../lib/enquiry';
 import { sendEnquiryEmail } from '../lib/emailService';
+import { recaptchaSiteKey } from '../lib/recaptcha';
+import Recaptcha from './Recaptcha';
 
 // idle → sending → sent (email delivered) | whatsapp (email not set up) | failed (email error)
 export default function EnquiryForm() {
   const [status, setStatus] = useState('idle');
   const [enquiry, setEnquiry] = useState(null);
+  const [captchaMissing, setCaptchaMissing] = useState(false);
   const noticeRef = useRef(null);
+  const captcha = useRef(null);
+  const siteKey = recaptchaSiteKey();
+  const handleCaptchaReady = useCallback((api) => {
+    captcha.current = api;
+  }, []);
 
   // The confirmation sits above the form, out of view after pressing Send, so scroll to it.
   useEffect(() => {
@@ -27,8 +35,17 @@ export default function EnquiryForm() {
       setStatus('sent');
       return;
     }
+    // When the EmailJS template checks reCAPTCHA, the visitor's "I'm not a robot" token goes with the email.
+    const token = siteKey ? captcha.current?.getToken() : '';
+    if (siteKey && !token) {
+      setCaptchaMissing(true);
+      return;
+    }
+    setCaptchaMissing(false);
     setStatus('sending');
-    const result = await sendEnquiryEmail(emailTemplateParams(next));
+    const params = emailTemplateParams(next);
+    const result = await sendEnquiryEmail(token ? { ...params, 'g-recaptcha-response': token } : params);
+    captcha.current?.reset();
     if (result.ok) {
       setStatus('sent');
       form.reset();
@@ -139,6 +156,12 @@ export default function EnquiryForm() {
         <label htmlFor="f-website">Leave this empty</label>
         <input id="f-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
+      {siteKey && <Recaptcha siteKey={siteKey} onReady={handleCaptchaReady} />}
+      {captchaMissing && (
+        <p role="alert" className="form-error">
+          Please tick “I'm not a robot” before sending.
+        </p>
+      )}
       <button type="submit" className="btn btn--primary" disabled={status === 'sending'}>
         {status === 'sending' ? 'Sending…' : 'Send enquiry'}
       </button>

@@ -70,6 +70,14 @@ textarea.form-input {
   padding: 12px 14px;
   resize: vertical;
 }
+.recaptcha {
+  min-height: 78px;
+}
+.form-error {
+  margin: 0;
+  color: #a3270f;
+  font-weight: 600;
+}
 .notice {
   border-radius: 4px;
   padding: 16px 18px;

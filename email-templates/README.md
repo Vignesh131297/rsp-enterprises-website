@@ -40,6 +40,14 @@ Email subject: `Website enquiry – <service> – <name>`.
 
 For local development, copy `.env.example` to `.env.local` and fill in the same three values.
 
+## If reCAPTCHA is switched on in the EmailJS template
+
+EmailJS then rejects every email that has no reCAPTCHA token (`reCAPTCHA: The g-recaptcha-response parameter not found`). Either switch it off (template **Settings** tab), or set it up fully:
+
+1. At https://www.google.com/recaptcha/admin/create create a key of type **reCAPTCHA v2 → "I'm not a robot" Checkbox** (v3 and invisible keys do not work here). Add the domains `vignesh131297.github.io` and `rspenterprises.net`.
+2. Paste the **secret key** into the EmailJS template's reCAPTCHA setting.
+3. Add the **site key** as the GitHub repository variable `RECAPTCHA_SITE_KEY` and redeploy. The form then shows the checkbox and sends its token with each email.
+
 ## Template variables
 
 | Variable             | Value                                  |
