@@ -17,7 +17,7 @@
     ].filter(function (f) { return f[1]; });
     var text = 'Hi RSP, I have an enquiry from your website.\n' + fields.map(function (f) { return f[0] + ': ' + f[1]; }).join('\n');
     window.open('https://wa.me/919901039765?text=' + encodeURIComponent(text), '_blank', 'noopener');
-    document.getElementById('mail-fallback').href = 'mailto:rspenterprises2013@gmail.com?subject=' +
+    document.getElementById('mail-fallback').href = 'mailto:sales@rspenterprises.net?cc=rspenterprises2013@gmail.com&subject=' +
       encodeURIComponent('Website enquiry – ' + val('f-service')) + '&body=' + encodeURIComponent(text);
     status.hidden = false;
     status.scrollIntoView({ behavior: 'smooth', block: 'center' });

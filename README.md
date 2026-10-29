@@ -22,5 +22,5 @@ After editing, commit and push to `main`; GitHub Pages updates the live site wit
 
 ## Contact used on the site
 
-R. Saravanaperumal · +91 99010 39765 · +91 95245 80969 · rspenterprises2013@gmail.com
+R. Saravanaperumal · +91 99010 39765 · +91 95245 80969 · sales@rspenterprises.net · rspenterprises2013@gmail.com
 No. 17, Diya Bhavan, 4th Main, Annapoorneshwari Layout, Near Mother Theresa School, Varanasi, Bangalore – 560036 · GSTIN 29BWOPS8261A2Z1
