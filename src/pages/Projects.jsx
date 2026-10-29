@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { img } from '../lib/assets';
 import usePageTitle from '../lib/usePageTitle';
+import HeroImage from '../components/HeroImage';
 import ProjectGrid from '../components/ProjectGrid';
 import RockToReadySlider from '../components/RockToReadySlider';
 import ProjectMap from '../components/ProjectMap';
@@ -10,75 +10,12 @@ export default function Projects() {
   return (
     <>
       <section style={{ position: 'relative', overflow: 'hidden', background: '#1C1B19', color: '#FFFFFF' }}>
-        <div
-          style={{
-            position: 'absolute',
-            inset: '0',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-            gap: '3px',
-            background: '#1C1B19',
-          }}
-        >
-          <div style={{ position: 'relative', overflow: 'hidden' }}>
-            <img
-              src={img('projects/embassy-east-avenue.jpg')}
-              alt="Excavation at Embassy East Avenue"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          </div>
-          <div style={{ position: 'relative', overflow: 'hidden' }}>
-            <img
-              src={img('projects/embassy-varde-1.jpg')}
-              alt="Bulk excavation at Embassy Varde I"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          </div>
-          <div style={{ position: 'relative', overflow: 'hidden' }}>
-            <img
-              src={img('projects/rmz-underpass.jpg')}
-              alt="Finished RMZ underpass"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-            <span
-              style={{
-                position: 'absolute',
-                left: '14px',
-                bottom: '14px',
-                background: 'rgba(20,18,16,0.82)',
-                color: '#FFFFFF',
-                fontSize: '13px',
-                fontWeight: '600',
-                padding: '6px 12px',
-                borderRadius: '999px',
-              }}
-            >
-              RMZ Underpass
-            </span>
-          </div>
-          <div style={{ position: 'relative', overflow: 'hidden' }}>
-            <img
-              src={img('projects/tuticorin-airport.jpg')}
-              alt="Concrete paving at Tuticorin Airport"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-            <span
-              style={{
-                position: 'absolute',
-                left: '14px',
-                bottom: '14px',
-                background: 'rgba(20,18,16,0.82)',
-                color: '#FFFFFF',
-                fontSize: '13px',
-                fontWeight: '600',
-                padding: '6px 12px',
-                borderRadius: '999px',
-              }}
-            >
-              Tuticorin Airport
-            </span>
-          </div>
-        </div>
+        <HeroImage
+          name="projects"
+          widths={[960, 1536, 3072]}
+          position="55% 50%"
+          alt="Aerial view of a deep basement excavation in the city"
+        />
         <div className="hero-scrim hero-scrim--projects" style={{ position: 'absolute', inset: '0' }} />
         <div style={{ position: 'relative', maxWidth: '1240px', margin: '0 auto', padding: '130px 24px 140px' }}>
           <div className="eyebrow eyebrow--light">PROJECTS</div>

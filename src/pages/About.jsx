@@ -11,9 +11,9 @@ export default function About() {
       <section style={{ position: 'relative', overflow: 'hidden', background: '#1C1B19' }}>
         <HeroImage
           name="about"
-          widths={[1280, 2130]}
-          position="55% 60%"
-          alt="Excavator loading red earth into RSP tippers"
+          widths={[960, 1536, 3072]}
+          position="60% 55%"
+          alt="Excavator loading red earth into a line of tipper trucks"
         />
         <div className="hero-scrim hero-scrim--about" style={{ position: 'absolute', inset: '0' }} />
         <div
@@ -39,25 +39,6 @@ export default function About() {
           >
             25 years of moving earth for India's builders
           </h1>
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            right: '24px',
-            bottom: '24px',
-            background: 'rgba(20,18,16,0.82)',
-            color: '#FFFFFF',
-            borderRadius: '999px',
-            padding: '9px 16px',
-            fontSize: '14px',
-            fontWeight: '500',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#E8731A' }} />
-          Excavator loading a tipper during basement excavation
         </div>
       </section>
       <section

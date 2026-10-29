@@ -14,9 +14,9 @@ export default function Home() {
       <section style={{ position: 'relative', overflow: 'hidden', background: '#1C1B19' }}>
         <HeroImage
           name="home"
-          widths={[1280, 2740]}
-          position="60% 55%"
-          alt="Sany and XCMG excavators breaking granite on a basement site in Bangalore"
+          widths={[960, 1536, 3072]}
+          position="65% 55%"
+          alt="Excavators breaking granite in a deep basement excavation at sunset"
         />
         <div className="hero-scrim hero-scrim--home" style={{ position: 'absolute', inset: '0' }} />
         <div
@@ -108,25 +108,6 @@ export default function Home() {
               WhatsApp {PHONE.primary.short}
             </a>
           </div>
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            right: '24px',
-            bottom: '24px',
-            background: 'rgba(20,18,16,0.82)',
-            color: '#FFFFFF',
-            borderRadius: '999px',
-            padding: '9px 16px',
-            fontSize: '14px',
-            fontWeight: '500',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#E8731A' }} />
-          Hydraulic rock breaking on a Bangalore basement site
         </div>
       </section>
       <section style={{ background: '#E8731A', color: '#1C1B19' }}>
