@@ -42,7 +42,9 @@ npm run build         # production build into dist/
 
 The site is built for the GitHub Pages sub-path `/rsp-enterprises-website/`. To host it at the root of a domain (for example www.rspenterprises.net), build with `BASE_PATH=/ npm run build` and upload the `dist/` folder. The host should serve `index.html` for unknown paths (single-page app); `dist/404.html` already does this on GitHub Pages.
 
-The enquiry form currently opens WhatsApp with the visitor's details (there is no backend). Sending it by email needs a form service or a small API on the chosen host.
+## Enquiries: email and WhatsApp
+
+The quote form emails each enquiry to pm@rspenterprises.net automatically (through EmailJS, no server needed) and gives the visitor a one-tap WhatsApp button with the same text. Setup steps and the template are in [`email-templates/README.md`](email-templates/README.md). Until the three `EMAILJS_*` repository variables are set, the form offers WhatsApp only.
 
 ## Contact used on the site
 

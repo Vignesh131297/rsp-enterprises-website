@@ -28,6 +28,11 @@ jobs:
       - run: npm run format:check
       - run: npm test
       - run: npm run build
+        env:
+          # Enquiry emails (EmailJS). Empty until the repository variables are set; the form then uses WhatsApp only.
+          VITE_EMAILJS_SERVICE_ID: ${{ vars.EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ vars.EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ vars.EMAILJS_PUBLIC_KEY }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist

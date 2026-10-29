@@ -2,3 +2,5 @@ dist
 node_modules
 public
 package-lock.json
+# Pasted into EmailJS as-is; reformatting would add blank lines around {{message}}.
+email-templates/*.html

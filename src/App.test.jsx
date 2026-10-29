@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
@@ -111,20 +111,94 @@ describe('services and contact', () => {
     renderAt('/services');
     expect(screen.getAllByText('Ask for this week')).toHaveLength(5);
   });
+});
 
-  it('sends the enquiry to WhatsApp with the form details', async () => {
-    const user = userEvent.setup();
-    const open = vi.spyOn(window, 'open').mockImplementation(() => null);
-    renderAt('/contact');
-    await user.type(screen.getByLabelText('Full name'), 'Test Visitor');
-    await user.type(screen.getByLabelText('Phone / WhatsApp'), '9000000000');
-    await user.type(screen.getByLabelText('Site location'), 'Whitefield');
+describe('enquiry form: email and WhatsApp', () => {
+  const EXPECTED = [
+    'Hi RSP, I have an enquiry from your website.',
+    'Name: Ramesh Kumar',
+    'Company: ABC Builders',
+    'Phone / WhatsApp: 98450 12345',
+    'Email: ramesh@abcbuilders.com',
+    'Service needed: Excavation & rock breaking',
+    'Site location: Whitefield, Bangalore',
+    'Project details: 2-level basement, approx. 8,000 sq ft plot',
+  ].join('\n');
+
+  const fillAndSend = async (user, { website } = {}) => {
+    await user.type(screen.getByLabelText('Full name'), 'Ramesh Kumar');
+    await user.type(screen.getByLabelText('Company'), 'ABC Builders');
+    await user.type(screen.getByLabelText('Phone / WhatsApp'), '98450 12345');
+    await user.type(screen.getByLabelText('Email'), 'ramesh@abcbuilders.com');
+    await user.selectOptions(screen.getByLabelText('Service needed'), 'Excavation & rock breaking');
+    await user.type(screen.getByLabelText('Site location'), 'Whitefield, Bangalore');
+    await user.type(screen.getByLabelText('Project details'), '2-level basement, approx. 8,000 sq ft plot');
+    if (website) fireEvent.change(document.getElementById('f-website'), { target: { value: website } });
     await user.click(screen.getByRole('button', { name: 'Send enquiry' }));
-    const url = decodeURIComponent(open.mock.calls[0][0]);
-    expect(url).toContain('https://wa.me/919901039765');
-    expect(url).toContain('Name: Test Visitor');
-    expect(url).toContain('Site location: Whitefield');
-    expect(screen.getByRole('status')).toHaveTextContent('WhatsApp has opened');
-    open.mockRestore();
+  };
+  const whatsappText = (link) => new URL(link.getAttribute('href')).searchParams.get('text');
+
+  const enableEmail = () => {
+    vi.stubEnv('VITE_EMAILJS_SERVICE_ID', 'service_test');
+    vi.stubEnv('VITE_EMAILJS_TEMPLATE_ID', 'template_test');
+    vi.stubEnv('VITE_EMAILJS_PUBLIC_KEY', 'public_test');
+  };
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+  });
+
+  it('without email set up, offers WhatsApp and email with the exact enquiry text', async () => {
+    const user = userEvent.setup();
+    renderAt('/contact');
+    await fillAndSend(user);
+    const whatsapp = await screen.findByRole('link', { name: 'Send on WhatsApp' });
+    expect(whatsapp.getAttribute('href')).toMatch(/^https:\/\/wa\.me\/919901039765\?text=/);
+    expect(whatsappText(whatsapp)).toBe(EXPECTED);
+    const mail = new URL(screen.getByRole('link', { name: 'Or send it by email' }).getAttribute('href'));
+    expect(mail.pathname).toBe('pm@rspenterprises.net');
+    expect(mail.searchParams.get('body')).toBe(EXPECTED);
+  });
+
+  it('emails the exact enquiry text through EmailJS and confirms to the visitor', async () => {
+    enableEmail();
+    const fetchMock = vi.fn().mockResolvedValue(new Response('OK', { status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+    const user = userEvent.setup();
+    renderAt('/contact');
+    await fillAndSend(user);
+    expect(await screen.findByText(/Your enquiry has been emailed to our team/)).toBeInTheDocument();
+    const [url, request] = fetchMock.mock.calls[0];
+    expect(url).toBe('https://api.emailjs.com/api/v1.0/email/send');
+    const body = JSON.parse(request.body);
+    expect(body).toMatchObject({ service_id: 'service_test', template_id: 'template_test', user_id: 'public_test' });
+    expect(body.template_params.message).toBe(EXPECTED);
+    expect(body.template_params.subject).toBe('Website enquiry – Excavation & rock breaking – Ramesh Kumar');
+    expect(body.template_params.customer_email).toBe('ramesh@abcbuilders.com');
+    expect(whatsappText(screen.getByRole('link', { name: 'Also send on WhatsApp' }))).toBe(EXPECTED);
+    expect(screen.getByLabelText('Full name')).toHaveValue('');
+  });
+
+  it('falls back to WhatsApp and phone if the email service fails', async () => {
+    enableEmail();
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('Bad request', { status: 400 })));
+    const user = userEvent.setup();
+    renderAt('/contact');
+    await fillAndSend(user);
+    expect(await screen.findByText(/couldn't send your enquiry by email/)).toBeInTheDocument();
+    expect(whatsappText(screen.getByRole('link', { name: 'Send on WhatsApp' }))).toBe(EXPECTED);
+    const notice = screen.getByRole('status');
+    expect(within(notice).getByRole('link', { name: 'Call 99010 39765' })).toHaveAttribute('href', 'tel:+919901039765');
+  });
+
+  it('does not send anything when the hidden spam-trap field is filled', async () => {
+    enableEmail();
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    const user = userEvent.setup();
+    renderAt('/contact');
+    await fillAndSend(user, { website: 'spam.example' });
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

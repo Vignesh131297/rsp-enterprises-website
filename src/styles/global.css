@@ -11,6 +11,94 @@ a:hover {
   color: #7a3410;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Contact page: enquiry form */
+.enquiry-form {
+  flex: 1 1 560px;
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e2ddd5;
+  border-radius: 6px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-title {
+  margin: 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  text-transform: uppercase;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-label {
+  font-weight: 600;
+  font-size: 15px;
+}
+.form-input {
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #b8b0a4;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 16px;
+  background: #ffffff;
+}
+.form-input:focus {
+  outline: 2px solid #e8731a;
+  outline-offset: 1px;
+  border-color: #e8731a;
+}
+select.form-input {
+  padding: 0 12px;
+}
+textarea.form-input {
+  height: auto;
+  padding: 12px 14px;
+  resize: vertical;
+}
+.notice {
+  border-radius: 4px;
+  padding: 16px 18px;
+  line-height: 1.5;
+}
+.notice--success {
+  background: #1c1b19;
+  color: #ffffff;
+}
+.notice--info {
+  background: #efeae2;
+  color: #1c1b19;
+}
+.notice--warning {
+  background: #fff1e3;
+  color: #1c1b19;
+  border: 1px solid #e8731a;
+}
+.notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin-top: 12px;
+}
+.notice--success .notice-actions a:not(.btn) {
+  color: #f2a35e;
+}
+
 /* Shared UI patterns used across pages */
 .container {
   max-width: 1240px;
@@ -83,6 +171,30 @@ a:hover {
 .btn--dark:hover {
   color: #ffffff;
   background: #000000;
+}
+.btn--primary {
+  align-self: flex-start;
+  background: #e8731a;
+  color: #1c1b19;
+  border: none;
+  padding: 16px 30px;
+  font-family: inherit;
+  font-size: 17px;
+  cursor: pointer;
+}
+.btn--primary:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+.btn--whatsapp {
+  display: inline-block;
+  background: #25d366;
+  color: #0b2e17;
+  padding: 12px 20px;
+}
+.btn--whatsapp:hover {
+  background: #1ebe5a;
+  color: #0b2e17;
 }
 
 /* Header menu. NavLink adds .active on the current page. */
